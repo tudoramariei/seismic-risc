@@ -4,8 +4,8 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-boto3==1.12.11            # via -r requirements.in
-botocore==1.15.11         # via boto3, s3transfer
+boto3==1.12.18            # via -r requirements.in
+botocore==1.15.18         # via boto3, s3transfer
 brotlipy==0.7.0           # via -r requirements.in
 cffi==1.14.0              # via brotlipy
 defusedxml==0.6.0         # via odfpy
@@ -17,7 +17,7 @@ django-import-export==2.0.2  # via -r requirements.in
 django-js-asset==1.2.2    # via django-ckeditor
 django-storages==1.9.1    # via -r requirements.in
 django-taggit==1.2.0      # via -r requirements.in
-django==2.2.10            # via -r requirements.in, django-import-export, django-storages, django-taggit, djangorestframework
+django==2.2.11            # via -r requirements.in, django-import-export, django-storages, django-taggit, djangorestframework
 djangorestframework==3.11.0  # via -r requirements.in
 docutils==0.15.2          # via botocore
 et-xmlfile==1.0.1         # via openpyxl
@@ -28,8 +28,8 @@ markuppy==1.14            # via tablib
 odfpy==1.4.1              # via tablib
 openpyxl==3.0.3           # via tablib
 pillow==7.0.0             # via -r requirements.in
-psycopg2==2.8.4           # via -r requirements.in
-pycparser==2.19           # via cffi
+psycopg2-binary==2.8.4    # via -r requirements.in
+pycparser==2.20           # via cffi
 python-dateutil==2.8.1    # via botocore
 pytz==2019.3              # via -r requirements.in, django
 pyyaml==5.3               # via tablib

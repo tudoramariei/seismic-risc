@@ -8,7 +8,7 @@ django-storages
 django-taggit
 
 # database
-psycopg2
+psycopg2-binary
 dj-database-url
 
 # file handling
