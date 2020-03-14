@@ -12,7 +12,8 @@
     "react-scripts": "^3.4.0",
     "typeface-open-sans": "0.0.75",
     "typeface-titillium-web": "0.0.72",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.2",
+    "customize-cra": "^0.9.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -57,7 +58,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-macros": "^2.8.0",
-    "customize-cra": "^0.9.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.10.0",
