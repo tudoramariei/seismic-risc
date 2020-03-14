@@ -21,5 +21,8 @@ jobs:
       - name: Install eslint
         run: npm install -g eslint
 
+      - name: Install eslint dependencies
+        run: npm install eslint-plugin-prettier@latest
+
       - name: Run linters
         run: eslint ./client
