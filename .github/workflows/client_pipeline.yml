@@ -18,8 +18,5 @@ jobs:
       - name: Install Node.js dependencies
         run: cd client && npm install 
 
-      - name: Install eslint
-        run: npm install -g eslint
-
       - name: Run linters
-        run: cd client && eslint .
+        run: cd client && npm run lint
