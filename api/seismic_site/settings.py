@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from django.utils.translation import gettext_lazy as _
 from configurations import Configuration, values
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -57,6 +58,7 @@ class Base(Configuration):
         "django.middleware.security.SecurityMiddleware",
         "whitenoise.middleware.WhiteNoiseMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -115,6 +117,11 @@ class Base(Configuration):
     USE_L10N = True
     USE_TZ = True
 
+    LANGUAGES = [
+        ("en", _("English")),
+        ("ro", _("Romanian")),
+    ]
+
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -129,6 +136,8 @@ class Base(Configuration):
 
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "./public/media")
+
+    LOCALE_PATHS = [os.path.join(BASE_DIR, "./locale")]
 
     CKEDITOR_UPLOAD_PATH = "uploads/"
 
