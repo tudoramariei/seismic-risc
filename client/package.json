@@ -6,7 +6,7 @@
     "@ant-design/icons": "^4.7.0",
     "@fontsource/source-sans-pro": "^4.5.0",
     "@hcaptcha/react-hcaptcha": "^0.3.9",
-    "@lingui/core": "^3.10.4",
+    "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.10.2",
     "@lingui/react": "^3.12.1",
     "antd": "^3.26.12",
