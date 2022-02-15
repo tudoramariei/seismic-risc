@@ -1,10 +1,8 @@
 from django.conf import settings
 from django.contrib.postgres.search import TrigramSimilarity
-from drf_spectacular.utils import (
-    extend_schema,
-    OpenApiParameter,
-)
-from rest_framework import permissions, status, viewsets
+from django.core.cache import caches
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
@@ -23,10 +21,11 @@ from .serializers import (
 
 
 class PublicCreateAnonRateThrottle(AnonRateThrottle):
+    cache = caches["throttling"]
     rate = "50/day"
 
 
-class BuildingViewSet(viewsets.ModelViewSet):
+class BuildingViewSet(viewsets.ReadOnlyModelViewSet, mixins.CreateModelMixin):
     """
     API endpoint that allows buildings to be viewed or edited.
     """

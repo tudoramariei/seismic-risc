@@ -155,7 +155,7 @@ make install-docker-ubuntu
 On `MacOS` run:
 
 ```shell
-make install-docker-osx
+make install-docker-macos
 ```
 
 On other platforms please follow the instructions described here:
@@ -173,7 +173,7 @@ section for info on how to set up the keys before you run the following commands
 ```shell
 cp .env.dist .env
 # build the development container
-make build-dev
+make build-dev 
 ```
 
 If you didn't set up the `RUN_LOAD_DUMMY_DATA` variable, you can add dummy data to the database with the following command:
@@ -333,10 +333,6 @@ activate_dev_env.bat
 ```
 
 4. Check database connection. If this fails double check database configuration.
-
-```shell
-python api/wait_for_db.py
-```
 
 5. Run migrations:
 

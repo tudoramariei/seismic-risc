@@ -1,3 +1,5 @@
+import os
+
 from seismic_site.settings.base import *
 
 DEBUG = True
@@ -8,7 +10,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS
 
-if DEBUG and env("ENABLE_DEBUG_TOOLBAR"):
+if ENABLE_DEBUG_TOOLBAR:
     INSTALLED_APPS += ["debug_toolbar", "django_extensions"]
     MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
@@ -19,9 +21,10 @@ if DEBUG and env("ENABLE_DEBUG_TOOLBAR"):
         "SHOW_TOOLBAR_CALLBACK": show_toolbar,
     }
 
-CACHES = {
+DEVELOPMENT_CACHES = {
     "default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"},
 }
+CACHES.update(DEVELOPMENT_CACHES)
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")

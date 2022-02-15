@@ -15,12 +15,21 @@ from django.utils.translation import gettext_lazy as _
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True),
-    ENVIRONMENT=(str, "dev"),
+    ENVIRONMENT=(str, "production"),
     ENABLE_DEBUG_TOOLBAR=(bool, True),
     LANGUAGE_CODE=(str, "en"),
     NO_REPLY_EMAIL=(str, "noreply@code4.ro"),
     DEFAULT_FROM_EMAIL=(str, "noreply@code4.ro"),
+    HOME_SITE_URL=(str, ""),
+    REACT_APP_DJANGO_SITE_URL=(str, ""),
+    REACT_APP_DJANGO_PORT=(str, ""),
+    MEMCACHED_HOST=(str, "cache:11211"),
+    EMAIL_HOST=(str, "localhost"),
+    EMAIL_PORT=(str, "25"),
+    EMAIL_HOST_USER=(str, "user"),
+    EMAIL_HOST_PASSWORD=(str, "password"),
+    EMAIL_USE_TLS=(str, "yes"),
+    EMAIL_USE_SSL=(str, "no"),
     HERE_MAPS_API_KEY=(str, ""),
     USE_S3=(bool, False),
     AWS_ACCESS_KEY_ID=(str, ""),
@@ -32,7 +41,16 @@ env = environ.Env(
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../..")
 
-DEBUG = env("DEBUG")
+DEBUG = bool(env("ENVIRONMENT") != "production")
+
+ENABLE_DEBUG_TOOLBAR = bool(DEBUG and env("ENABLE_DEBUG_TOOLBAR"))
+
+DJANGO_SITE_URL = env("REACT_APP_DJANGO_SITE_URL")
+DJANGO_PORT = env("REACT_APP_DJANGO_PORT")
+DJANGO_PORT = f":{DJANGO_PORT}" if DJANGO_PORT else ""
+
+SITE_URL = f"{DJANGO_SITE_URL}{DJANGO_PORT}"
+HOME_SITE_URL = env("HOME_SITE_URL") or SITE_URL
 
 ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = False
@@ -80,8 +98,6 @@ MIDDLEWARE = [
 
 SITE_ID = 1
 
-ENABLE_DEBUG_TOOLBAR = env("ENABLE_DEBUG_TOOLBAR")
-
 ROOT_URLCONF = "seismic_site.urls"
 
 TEMPLATES = [
@@ -114,7 +130,14 @@ if env("ENVIRONMENT") == "test":
     }
 else:
     DATABASES = {
-        "default": env.db(),  # looks for the DATABASE_URL env var
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": env("DATABASE_NAME"),
+            "USER": env("DATABASE_USER"),
+            "PASSWORD": env("DATABASE_PASSWORD"),
+            "HOST": env("DATABASE_HOST"),
+            "PORT": env("DATABASE_PORT"),
+        }
     }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
@@ -142,6 +165,17 @@ LANGUAGES = [
     ("ro", _("Romanian")),
     ("en", _("English")),
 ]
+
+# SMTP
+NO_REPLY_EMAIL = env("NO_REPLY_EMAIL")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS") == "yes"
+EMAIL_USE_SSL = env("EMAIL_USE_SSL") == "yes"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -176,6 +210,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+MEMCACHED_HOST = env("MEMCACHED_HOST")
+CACHES = {
+    "throttling": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": MEMCACHED_HOST,
+    },
+}
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
